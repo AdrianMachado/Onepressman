@@ -22,7 +22,7 @@ import java.util.UUID;
  * Created by franzchen on 2016-01-23.
  *
  */
-public class PebbleListener extends Activity{
+public class PebbleListener {
 
     private static final UUID APP_UUID = UUID.fromString("3783cff2-5a14-477d-baee-b77bd423d079"); //TODO add actual UUID from app
 
@@ -62,14 +62,7 @@ public class PebbleListener extends Activity{
             PebbleKit.registerReceivedDataHandler(context, listenerReceiver);
         }
     }
-
-    public void pause() {
-
-        if (listenerReceiver != null) {
-            unregisterReceiver(listenerReceiver);
-            listenerReceiver = null;
-        }
-    }
+    
 
     public void panicHandle() {
         String[] phoneNumbers = getPhoneNumbers();
