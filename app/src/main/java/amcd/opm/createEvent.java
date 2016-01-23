@@ -75,7 +75,7 @@ public class createEvent extends Fragment{
         final EditText eventText = (EditText) view.findViewById(R.id.eventName);
         eventText.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s){
-                if(s.equals("")){
+                if(s.toString().equals("")){
                     s.append("Event Name");
                 }
                 else{
@@ -86,6 +86,30 @@ public class createEvent extends Fragment{
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+        //Getting Event Description
+        final EditText descText = (EditText) view.findViewById(R.id.eventDesc);
+        descText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().equals("")){
+                    s.append("Enter a Description");
+                }
+                else{
+                    ((MainActivity)getActivity()).setDescription(s.toString());
+                }
+
+            }
         });
         return view;
     }

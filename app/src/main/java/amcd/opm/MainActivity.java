@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     final String[] screen = {"Welcome","Event Creation","Contact Selection",""};
     String currentScreen;
     String eventName;
+    String description;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if(currentScreen.equals(screen[1])){
                     try {
-                        button.setText(eventName);
+                        button.setText(description);
                     }
                     catch (Exception e){
                         button.setText("Error");
@@ -81,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
     public void setEventName(String name){
         this.eventName = name;
 
+    }
+
+    public void setDescription(String desc){
+        this.description = desc;
     }
 
     @Override

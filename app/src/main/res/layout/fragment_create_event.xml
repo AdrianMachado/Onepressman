@@ -44,7 +44,7 @@
             android:layout_height="53dp"
             android:inputType="textMultiLine"
             android:ems="10"
-            android:id="@+id/editText2"
+            android:id="@+id/eventDesc"
             android:background="@color/lightGrey"
             android:layout_x="-2dp"
             android:layout_y="242dp" />
