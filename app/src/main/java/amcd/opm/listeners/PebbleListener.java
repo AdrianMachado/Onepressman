@@ -1,12 +1,19 @@
 package amcd.opm.listeners;
 
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.telephony.SmsManager;
+import android.widget.Toast;
 
 import com.getpebble.android.kit.PebbleKit;
 import com.getpebble.android.kit.PebbleKit.PebbleDataReceiver;
 import com.getpebble.android.kit.util.PebbleDictionary;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 
@@ -18,12 +25,14 @@ public class PebbleListener extends Activity{
 
     private static final UUID APP_UUID = UUID.fromString("dummy"); //TODO add actual UUID from app
 
-    private static final int KEY_BUTTON = 1231241; //TODO add values for buttons
+    //TODO add values for buttons
     private static final int PANIC_BUTTON = 10101;
     private static final int STOP_BUTTON = 101225;
 
     private PebbleDataReceiver listenerReceiver;
     private Context context;
+    // Set to not panicking by default
+    private boolean panicking = false;
 
     public PebbleListener(Context context) {
 
@@ -38,13 +47,16 @@ public class PebbleListener extends Activity{
                     PebbleKit.sendAckToPebble(context, transactionId);
 
                     // Read button input
-                    if (data.getInteger(PANIC_BUTTON) != null) {
+                    if (data.getInteger(PANIC_BUTTON) != null && !panicking) {
+                        //Panic
+                        panicHandle();
+                    }
 
-                        // Check which button was pressed
-                        final int button = data.getInteger(KEY_BUTTON).intValue();
-
+                    if (data.getInteger(STOP_BUTTON) != null && panicking) {
+                        //Stop panic
 
                     }
+
 
                 }
 
@@ -60,5 +72,63 @@ public class PebbleListener extends Activity{
             unregisterReceiver(listenerReceiver);
             listenerReceiver = null;
         }
+    }
+
+    private void panicHandle() {
+
+        // Intent parameters
+        String SMS_SENT = "SMS_SENT";
+        String SMS_DELIVERED = "SMS_DELIVERED";
+
+        PendingIntent sendPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
+        PendingIntent deliveredPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
+
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                    switch (getResultCode()) {
+                        case Activity.RESULT_OK:
+                            Toast.makeText(context, "SMS sent successfully", Toast.LENGTH_SHORT).show();
+                            break;
+                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                            Toast.makeText(context, "Generic failure cause", Toast.LENGTH_SHORT).show();
+                            break;
+                        case SmsManager.RESULT_ERROR_NO_SERVICE:
+                            Toast.makeText(context, "Service is currently unavailable", Toast.LENGTH_SHORT).show();
+                            break;
+                        case SmsManager.RESULT_ERROR_NULL_PDU:
+                            Toast.makeText(context, "No pdu provided", Toast.LENGTH_SHORT).show();
+                            break;
+                        case SmsManager.RESULT_ERROR_RADIO_OFF:
+                            Toast.makeText(context, "Radio was explicitly turned off", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+            }
+        }, new IntentFilter(SMS_SENT));
+
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (getResultCode()) {
+                    case Activity.RESULT_OK:
+                        Toast.makeText(getBaseContext(), "SMS delivered", Toast.LENGTH_SHORT).show();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        Toast.makeText(getBaseContext(), "SMS not delivered", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        }, new IntentFilter(SMS_DELIVERED));
+
+        // TODO Get user parameters
+        String smsBody = "test"; // Get SMS body
+        String[] phoneNumbers = {"6477802969", "2269786695"}; // Get #(s) to be sent
+
+        SmsManager smsManager = SmsManager.getDefault();
+
+        for (String number : phoneNumbers) {
+            smsManager.sendTextMessage(number, null, smsBody, sendPendingIntent, deliveredPendingIntent);
+        }
+
     }
 }
