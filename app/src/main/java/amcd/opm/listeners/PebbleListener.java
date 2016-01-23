@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.getpebble.android.kit.PebbleKit;
@@ -23,11 +24,11 @@ import java.util.UUID;
  */
 public class PebbleListener extends Activity{
 
-    private static final UUID APP_UUID = UUID.fromString("dummy"); //TODO add actual UUID from app
+    private static final UUID APP_UUID = UUID.fromString("3783cff2-5a14-477d-baee-b77bd423d079"); //TODO add actual UUID from app
 
     //TODO add values for buttons
-    private static final int PANIC_BUTTON = 10101;
-    private static final int STOP_BUTTON = 101225;
+    private static final int PANIC_BUTTON = 0;
+    private static final int STOP_BUTTON = 1;
 
     private PebbleDataReceiver listenerReceiver;
     private Context context;
@@ -49,14 +50,16 @@ public class PebbleListener extends Activity{
                     // Read button input
                     if (data.getInteger(PANIC_BUTTON) != null && !panicking) {
                         //Panic
-                        panicHandle();
+                        //panicHandle();
+                        Log.d("listener", "triggered");
+                        panicking = true;
                     }
 
                     if (data.getInteger(STOP_BUTTON) != null && panicking) {
                         //Stop panic
-
+                        Log.d("listener", "stop triggered");
+                        panicking = false;
                     }
-
 
                 }
 
@@ -80,8 +83,8 @@ public class PebbleListener extends Activity{
         String SMS_SENT = "SMS_SENT";
         String SMS_DELIVERED = "SMS_DELIVERED";
 
-        PendingIntent sendPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(SMS_SENT), 0);
-        PendingIntent deliveredPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(SMS_DELIVERED), 0);
+        PendingIntent sendPendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(SMS_SENT), 0);
+        PendingIntent deliveredPendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(SMS_DELIVERED), 0);
 
         registerReceiver(new BroadcastReceiver() {
             @Override
