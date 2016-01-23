@@ -1,0 +1,19 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "franzjulius@gmail.com",
+    "longName": "Onepressman",
+    "projectType": "native",
+    "resources": {
+        "media": []
+    },
+    "sdkVersion": "3",
+    "shortName": "Onepressman",
+    "uuid": "2f93199e-672f-4bdc-90c7-e74f66e5d53d",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
