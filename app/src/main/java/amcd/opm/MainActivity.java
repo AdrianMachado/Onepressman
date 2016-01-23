@@ -2,7 +2,6 @@ package amcd.opm;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
