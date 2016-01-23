@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.app.Fragment;
 
+import amcd.opm.listeners.PebbleListener;
+
 public class MainActivity extends AppCompatActivity {
     final String[] screen = {"Welcome","Event Creation","Contact Selection",""};
     String currentScreen;
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        PebbleListener listener = new PebbleListener(getApplicationContext()); // Link listener to main activity
 
     }
 
@@ -107,6 +109,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }

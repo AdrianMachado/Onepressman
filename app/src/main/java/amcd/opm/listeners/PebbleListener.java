@@ -1,12 +1,20 @@
 package amcd.opm.listeners;
 
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.telephony.SmsManager;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.getpebble.android.kit.PebbleKit;
 import com.getpebble.android.kit.PebbleKit.PebbleDataReceiver;
 import com.getpebble.android.kit.util.PebbleDictionary;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 
@@ -16,11 +24,10 @@ import java.util.UUID;
  */
 public class PebbleListener extends Activity{
 
-    private static final UUID APP_UUID = UUID.fromString("dummy"); //TODO add actual UUID from app
+    private static final UUID APP_UUID = UUID.fromString("3783cff2-5a14-477d-baee-b77bd423d079"); //TODO add actual UUID from app
 
-    private static final int KEY_BUTTON = 1231241; //TODO add values for buttons
-    private static final int PANIC_BUTTON = 10101;
-    private static final int STOP_BUTTON = 101225;
+    //TODO add values for buttons
+    private static final int PANIC_BUTTON = 0;
 
     private PebbleDataReceiver listenerReceiver;
     private Context context;
@@ -39,19 +46,21 @@ public class PebbleListener extends Activity{
 
                     // Read button input
                     if (data.getInteger(PANIC_BUTTON) != null) {
-
-                        // Check which button was pressed
-                        final int button = data.getInteger(KEY_BUTTON).intValue();
-
+                        //Panic
+                        try {
+                            panicHandle();
+                        } catch (NullPointerException e) {
+                            Log.d("listener", "failed to text");
+                            e.printStackTrace();
+                        }
 
                     }
 
                 }
-
             };
-        }
 
-        PebbleKit.registerReceivedDataHandler(context, listenerReceiver);
+            PebbleKit.registerReceivedDataHandler(context, listenerReceiver);
+        }
     }
 
     public void pause() {
@@ -60,5 +69,26 @@ public class PebbleListener extends Activity{
             unregisterReceiver(listenerReceiver);
             listenerReceiver = null;
         }
+    }
+
+    public void panicHandle() {
+        String[] phoneNumbers = getPhoneNumbers();
+        String message = getMessage();
+
+// Get the default instance of SmsManager
+        SmsManager smsManager = SmsManager.getDefault();
+// Send a text based SMS
+        for(String numbers : phoneNumbers) {
+            smsManager.sendTextMessage(numbers, null, message, null, null);
+        }
+    }
+
+    private String[] getPhoneNumbers() {
+        String[] numbers = {"6477802969", "2269786695"};
+        return numbers;
+    }
+
+    private String getMessage() {
+        return "test";
     }
 }
