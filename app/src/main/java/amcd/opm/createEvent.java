@@ -4,9 +4,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 
 /**
@@ -17,7 +20,7 @@ import android.view.ViewGroup;
  * Use the {@link createEvent#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class createEvent extends Fragment {
+public class createEvent extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -26,6 +29,7 @@ public class createEvent extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String eventName;
 
     private OnFragmentInteractionListener mListener;
 
@@ -58,13 +62,32 @@ public class createEvent extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_event, container, false);
+        View view = inflater.inflate(R.layout.fragment_create_event, container, false);
+        //Getting Event Name
+        final EditText eventText = (EditText) view.findViewById(R.id.eventName);
+        eventText.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s){
+                if(s.equals("")){
+                    s.append("Event Name");
+                }
+                else{
+                    ((MainActivity)getActivity()).setEventName(s.toString());
+                }
+
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

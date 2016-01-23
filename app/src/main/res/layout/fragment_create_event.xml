@@ -34,7 +34,7 @@
             android:inputType="textPersonName"
             android:text="Event Name"
             android:ems="10"
-            android:id="@+id/editText"
+            android:id="@+id/eventName"
             android:layout_x="0dp"
             android:layout_y="118dp"
             android:textColor="@color/colorDarkOrange"/>

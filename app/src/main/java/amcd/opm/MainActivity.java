@@ -16,9 +16,10 @@ import android.app.Fragment;
 public class MainActivity extends AppCompatActivity {
     final String[] screen = {"Welcome","Event Creation","Contact Selection",""};
     String currentScreen;
+    String eventName;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final FragmentManager fragmentManager = getFragmentManager();
@@ -59,7 +60,12 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 else if(currentScreen.equals(screen[1])){
-
+                    try {
+                        button.setText(eventName);
+                    }
+                    catch (Exception e){
+                        button.setText("Error");
+                    }
 
                 }
 
@@ -67,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
+    }
+
+    public void setEventName(String name){
+        this.eventName = name;
 
     }
 
