@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Opm.iml" filepath="$PROJECT_DIR$/Opm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Onepressman.iml" filepath="$PROJECT_DIR$/Onepressman.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
