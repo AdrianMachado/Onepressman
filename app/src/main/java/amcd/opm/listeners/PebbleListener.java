@@ -71,64 +71,6 @@ public class PebbleListener extends Activity{
         }
     }
 
-//    private void panicHandle() {
-//
-//        // Intent parameters
-//        String SMS_SENT = "SMS_SENT";
-//        String SMS_DELIVERED = "SMS_DELIVERED";
-//
-//        PendingIntent sendPendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(SMS_SENT), 0);
-//        PendingIntent deliveredPendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(SMS_DELIVERED), 0);
-//
-//        registerReceiver(new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                    switch (getResultCode()) {
-//                        case Activity.RESULT_OK:
-//                            Toast.makeText(context, "SMS sent successfully", Toast.LENGTH_SHORT).show();
-//                            break;
-//                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-//                            Toast.makeText(context, "Generic failure cause", Toast.LENGTH_SHORT).show();
-//                            break;
-//                        case SmsManager.RESULT_ERROR_NO_SERVICE:
-//                            Toast.makeText(context, "Service is currently unavailable", Toast.LENGTH_SHORT).show();
-//                            break;
-//                        case SmsManager.RESULT_ERROR_NULL_PDU:
-//                            Toast.makeText(context, "No pdu provided", Toast.LENGTH_SHORT).show();
-//                            break;
-//                        case SmsManager.RESULT_ERROR_RADIO_OFF:
-//                            Toast.makeText(context, "Radio was explicitly turned off", Toast.LENGTH_SHORT).show();
-//                            break;
-//                    }
-//            }
-//        }, new IntentFilter(SMS_SENT));
-//
-//        registerReceiver(new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                switch (getResultCode()) {
-//                    case Activity.RESULT_OK:
-//                        Toast.makeText(getBaseContext(), "SMS delivered", Toast.LENGTH_SHORT).show();
-//                        break;
-//                    case Activity.RESULT_CANCELED:
-//                        Toast.makeText(getBaseContext(), "SMS not delivered", Toast.LENGTH_SHORT).show();
-//                        break;
-//                }
-//            }
-//        }, new IntentFilter(SMS_DELIVERED));
-//
-//        // TODO Get user parameters
-//        String smsBody = "test"; // Get SMS body
-//        String[] phoneNumbers = {"6477802969", "2269786695"}; // Get #(s) to be sent
-//
-//        SmsManager smsManager = SmsManager.getDefault();
-//
-//        for (String number : phoneNumbers) {
-//            smsManager.sendTextMessage(number, null, smsBody, sendPendingIntent, deliveredPendingIntent);
-//        }
-//
-//    }
-
     public void panicHandle() {
         String[] phoneNumbers = getPhoneNumbers();
         String message = getMessage();
