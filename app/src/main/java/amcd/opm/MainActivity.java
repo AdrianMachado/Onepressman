@@ -1,5 +1,7 @@
 package amcd.opm;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,25 +10,69 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.app.Fragment;
 
 public class MainActivity extends AppCompatActivity {
+    final String[] screen = {"Welcome","Event Creation","Contact Selection",""};
+    String currentScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final FragmentManager fragmentManager = getFragmentManager();
+        final FragmentTransaction fragmentTranscation = fragmentManager.beginTransaction();
+        try {
+            currentScreen = savedInstanceState.getString("lastScreen");
+        }
+        catch(Exception e) {
+
+                currentScreen = screen[0];
+
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
+        });*/
+
+        final Button button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View v){
+                if(currentScreen.equals(screen[0])) {
+                    createEvent fragment = new createEvent();
+                    button.setText("SELECT CONTACTS");
+                    currentScreen = screen[1];
+                    fragmentTranscation.replace(R.id.main_fragment, fragment);
+                    // fragmentTranscation.add(R.id.create_event,fragment);
+                    //fragmentTranscation.remove(fragmentManager.findFragmentById(R.id.main_fragment));
+
+                    fragmentTranscation.commit();
+
+                }
+                else if(currentScreen.equals(screen[1])){
+
+
+                }
+
+            }
         });
 
+
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        outState.putString("lastScreen", currentScreen);
     }
 
     @Override
@@ -50,4 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
