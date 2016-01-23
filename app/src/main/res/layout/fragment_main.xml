@@ -3,7 +3,7 @@
     android:id="@+id/main_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@color/grey"
     tools:context="amcd.opm.MainActivityFragment"
     >
 
@@ -20,15 +20,30 @@
         android:textColor="@color/white"
         android:layout_gravity="center_horizontal|bottom" />
 
-    <TextView
+
+    <ImageView
+        android:layout_width="210dp"
+        android:layout_height="279dp"
+        android:id="@+id/imageView"
+        android:layout_gravity="center"
+        android:src="@drawable/opm_face"/>
+
+    <AbsoluteLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Welcome to One Press Man!"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="113dp"
+        android:layout_gravity="center_horizontal|top"></AbsoluteLayout>
+
+    <TextView
+    android:layout_width="219dp"
+    android:layout_height="87dp"
+    android:gravity="top|center"
+    android:text="Welcome to One Press Man!"
+    android:id="@+id/textView"
+    android:textStyle="bold"
+    android:textColorHighlight="@color/colorDarkOrange"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="113dp"
         android:layout_gravity="center_horizontal|top" />
 
 </FrameLayout>
