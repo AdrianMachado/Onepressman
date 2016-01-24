@@ -22,9 +22,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enter the name of the emergency you wish to notify other about"
-            android:layout_x="6dp"
-            android:layout_y="61dp"
+            android:text="Enter the name of the Emergency you wish to notify others about"
+            android:layout_x="3dp"
+            android:layout_y="58dp"
             android:textStyle="bold"
             android:textColor="@color/colorDarkGrey"/>
 
@@ -32,23 +32,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="Event Name"
             android:ems="10"
             android:id="@+id/eventName"
             android:layout_x="0dp"
             android:layout_y="118dp"
-            android:textColor="@color/colorDarkOrange"/>
+            android:hint="Emergency Name"
+            android:textColorHint="@color/colorDarkOrange"/>
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="338dp"
             android:layout_height="53dp"
             android:inputType="textMultiLine"
             android:ems="10"
             android:id="@+id/eventDesc"
             android:background="@color/lightGrey"
             android:textColor="@color/colorDarkOrange"
-            android:layout_x="-2dp"
-            android:layout_y="242dp" />
+            android:layout_x="0dp"
+            android:layout_y="245dp" />
 
         <Switch
             android:layout_width="wrap_content"
@@ -57,17 +57,18 @@
             android:id="@+id/switch1"
             android:layout_x="0dp"
             android:textStyle="bold"
-            android:layout_y="316dp"
+            android:textColorHighlight="@color/colorDarkGrey"
+            android:layout_y="330dp"
             android:textColor="@color/colorDarkGrey"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="DESCRIPTON"
+            android:text="Create a message to be sent to your contacts during this Emergency"
             android:id="@+id/textView2"
-            android:layout_x="3dp"
-            android:layout_y="205dp"
+            android:layout_x="0dp"
+            android:layout_y="189dp"
+            android:textStyle="bold"
             android:textColor="@color/colorDarkGrey"/>
 
 

@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     EventProfile selectedProfile;
     boolean useGPS = false;//whether or not to include GPS data
     ArrayList<EventProfile> profiles = new ArrayList<>();
+    PebbleListener listener;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        PebbleListener listener = new PebbleListener(getApplicationContext(), manager); // Link listener to main activity
+        listener = new PebbleListener(getApplicationContext(), manager); // Link listener to main activity
 
     }
 
@@ -133,12 +134,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void appendContactNumber(String contactNumber){
+
         contactNumbers.add(contactNumber);
     }
 
     public void createProfile(){
         eventProfile = new EventProfile(eventName, contactNumbers, description, useGPS);
         profiles.add(eventProfile);
+
         return;
     }
 
@@ -147,7 +150,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setSelectedProfile(EventProfile sel){
-        selectedProfile = sel;
+        this.selectedProfile = sel;
+        listener.setProfile(sel);
     }
 
     @Override

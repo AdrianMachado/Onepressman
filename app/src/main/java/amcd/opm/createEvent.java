@@ -101,12 +101,10 @@ public class createEvent extends Fragment{
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().equals("")){
-                    s.append("Enter a Description");
-                }
-                else{
+
+
                     ((MainActivity)getActivity()).setDescription(s.toString());
-                }
+
 
             }
         });

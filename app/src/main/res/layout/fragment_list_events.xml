@@ -18,9 +18,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment"
-        android:layout_x="0dp"
-        android:layout_y="23dp" />
+        android:text="Select an Emergency, then open the Pebble app"
+        android:layout_x="4dp"
+        android:layout_y="62dp"
+        android:textStyle="bold"/>
 
         <ListView
             android:orientation="vertical"
@@ -28,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="323dp"
             android:layout_x="4dp"
-            android:layout_y="72dp"/>
+            android:layout_y="72dp" />
 
     </AbsoluteLayout>
 

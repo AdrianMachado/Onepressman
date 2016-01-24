@@ -9,7 +9,7 @@ public class EventProfile {
     private String name;
     private ArrayList<String> phoneNumbers;
     private String message;
-    private boolean useGps;
+    private boolean useGps = false;
 
     public EventProfile(String name, ArrayList<String> phoneNumbers, String message, boolean useGps){
         this.name = name;
