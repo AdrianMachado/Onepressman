@@ -31,7 +31,7 @@ import java.util.UUID;
  */
 public class PebbleListener implements LocationListener {
 
-    private static final UUID APP_UUID = UUID.fromString("fae951bf-4f1d-4fc9-b60c-1e67f54f58e8"); //TODO add actual UUID from app
+    private static final UUID APP_UUID = UUID.fromString("be8c5d23-e91b-41d6-ad29-bf443d8b5f13"); //TODO add actual UUID from app
 
     //TODO add values for buttons
     private static final int PANIC_BUTTON = 0;
