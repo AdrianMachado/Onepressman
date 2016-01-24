@@ -125,7 +125,7 @@ public class selectContacts extends Fragment {
         incNoo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                ((MainActivity)getActivity()).appendContactNumber("911");
+                //((MainActivity)getActivity()).appendContactNumber("911");
             }
         });
 
