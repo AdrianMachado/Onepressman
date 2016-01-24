@@ -24,6 +24,8 @@ import com.getpebble.android.kit.util.PebbleDictionary;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import amcd.opm.EventProfile;
+
 
 /**
  * Created by franzchen on 2016-01-23.
@@ -40,6 +42,7 @@ public class PebbleListener implements LocationListener {
     private Context context;
     private LocationManager manager;
     private Location location;
+    private EventProfile currentProfile;
 
     public PebbleListener(Context context, LocationManager locationManager) {
 
@@ -86,8 +89,10 @@ public class PebbleListener implements LocationListener {
 
         double lon = 0.0;
         double lat = 0.0;
+        String textMessage = getMessage();
 
-        if (!location.equals(null)) {
+        if (currentProfile.isUseGps()) {
+            if (!location.equals(null)) {
 //            int permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION);
 //            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
 //                if (manager != null) {
@@ -97,36 +102,37 @@ public class PebbleListener implements LocationListener {
 //                    Log.d("manager check", "manager exists");
 //                }
 //            }
-            try {
-                lon = location.getLongitude();
-                lat = location.getLatitude();
-            } catch (NullPointerException e) {
-                e.printStackTrace();
+                try {
+                    lon = location.getLongitude();
+                    lat = location.getLatitude();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.d("location", "null");
             }
-        }
-        else {
-            Log.d("location", "null");
+
+            String coordinates = "{" + lon + ", " + lat + "}";
+            textMessage = getMessage() + " at " + coordinates;
         }
 
-        String coordinates = "{" + lon + ", " + lat + "}";
-        String[] phoneNumbers = getPhoneNumbers();
-        String message = getMessage() + " at " + coordinates;
+        ArrayList<String> phoneNumbers = getPhoneNumbers();
 
 // Get the default instance of SmsManager
         SmsManager smsManager = SmsManager.getDefault();
 // Send a text based SMS
-        for(String numbers : phoneNumbers) {
-            smsManager.sendTextMessage(numbers, null, message, null, null);
+        for(String numbers : getPhoneNumbers()) {
+            smsManager.sendTextMessage(numbers, null, textMessage, null, null);
         }
     }
 
-    private String[] getPhoneNumbers() {
-        String[] numbers = {"6477802969", "2269786695"};
+    private ArrayList<String> getPhoneNumbers() {
+        ArrayList<String> numbers = currentProfile.getPhoneNumbers();
         return numbers;
     }
 
     private String getMessage() {
-        return "test";
+       return currentProfile.getMessage();
     }
 
     @Override
@@ -142,5 +148,9 @@ public class PebbleListener implements LocationListener {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+    public void setProfile(EventProfile profile) {
+        this.currentProfile = profile;
+    }
 
 }
