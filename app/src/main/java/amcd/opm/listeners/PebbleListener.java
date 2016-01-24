@@ -40,6 +40,7 @@ public class PebbleListener implements LocationListener {
     private Context context;
     private LocationManager manager;
     private Location location;
+    private EventProfile currentProfile;
 
     public PebbleListener(Context context, LocationManager locationManager) {
 
@@ -142,5 +143,9 @@ public class PebbleListener implements LocationListener {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+    public void setProfile(EventProfile profile) {
+        this.currentProfile = profile;
+    }
 
 }
