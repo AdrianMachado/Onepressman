@@ -89,6 +89,7 @@ public class PebbleListener implements LocationListener {
 
         double lon = 0.0;
         double lat = 0.0;
+        String textMessage = getMessage();
 
         if (currentProfile.isUseGps()) {
             if (!location.equals(null)) {
@@ -112,15 +113,16 @@ public class PebbleListener implements LocationListener {
             }
 
             String coordinates = "{" + lon + ", " + lat + "}";
-            ArrayList<String> phoneNumbers = getPhoneNumbers();
-            String message = getMessage() + " at " + coordinates;
+            textMessage = getMessage() + " at " + coordinates;
         }
+
+        ArrayList<String> phoneNumbers = getPhoneNumbers();
 
 // Get the default instance of SmsManager
         SmsManager smsManager = SmsManager.getDefault();
 // Send a text based SMS
-        for(String numbers : phoneNumbers) {
-            smsManager.sendTextMessage(numbers, null, message, null, null);
+        for(String numbers : getPhoneNumbers()) {
+            smsManager.sendTextMessage(numbers, null, textMessage, null, null);
         }
     }
 
