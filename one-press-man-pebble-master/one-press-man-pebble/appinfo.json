@@ -1,0 +1,19 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "nakulpathak3@hotmail.com",
+    "longName": "C Tutorial Android",
+    "projectType": "native",
+    "resources": {
+        "media": []
+    },
+    "sdkVersion": "3",
+    "shortName": "C Tutorial Android",
+    "uuid": "61625199-6e99-4b18-9967-5d9ec1da620d",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
