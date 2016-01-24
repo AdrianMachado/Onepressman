@@ -18,20 +18,24 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.app.Fragment;
 
+import java.util.ArrayList;
+
 import amcd.opm.listeners.PebbleListener;
 
 public class MainActivity extends AppCompatActivity {
     final String[] screen = {"Welcome","Event Creation","Contact Selection",""};
     String currentScreen;
-    String eventName;
-    String description;
+    String eventName;//name of the emergency in this case
+    String description;//this is the text message
+    ArrayList<String> contactNumbers = new ArrayList<>();//the numbers to be messaged
+    boolean useGPS;//whether or not to include GPS data
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final FragmentManager fragmentManager = getFragmentManager();
-        final FragmentTransaction fragmentTranscation = fragmentManager.beginTransaction();
         final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
 
         if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View v){
                 if(currentScreen.equals(screen[0])) {
+                    FragmentTransaction fragmentTranscation = fragmentManager.beginTransaction();
                     createEvent fragment = new createEvent();
                     button.setText("SELECT CONTACTS");
                     currentScreen = screen[1];
@@ -74,12 +79,13 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 else if(currentScreen.equals(screen[1])){
-                    try {
-                        button.setText(description);
-                    }
-                    catch (Exception e){
-                        button.setText("Error");
-                    }
+                    FragmentTransaction fragmentTranscation = fragmentManager.beginTransaction();
+                    selectContacts frag = new selectContacts();
+                    button.setText("FINISH");
+                    currentScreen = screen[2];
+                    fragmentTranscation.replace(R.id.main_fragment, frag);
+                    fragmentTranscation.commit();
+
 
                 }
 
@@ -97,6 +103,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void setDescription(String desc){
         this.description = desc;
+    }
+
+    public void setUseGPS(boolean use){
+        this.useGPS = use;
+    }
+
+    public void appendContactNumber(String contactNumber){
+        contactNumbers.add(contactNumber);
     }
 
     @Override

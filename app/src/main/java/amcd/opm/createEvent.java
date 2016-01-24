@@ -9,7 +9,9 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 
 
 /**
@@ -75,12 +77,9 @@ public class createEvent extends Fragment{
         final EditText eventText = (EditText) view.findViewById(R.id.eventName);
         eventText.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s){
-                if(s.toString().equals("")){
-                    s.append("Event Name");
-                }
-                else{
+
                     ((MainActivity)getActivity()).setEventName(s.toString());
-                }
+
 
             }
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -109,6 +108,14 @@ public class createEvent extends Fragment{
                     ((MainActivity)getActivity()).setDescription(s.toString());
                 }
 
+            }
+        });
+        //Getting Slider Value
+        final Switch incLoc = (Switch) view.findViewById(R.id.switch1);
+        incLoc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                ((MainActivity)getActivity()).setUseGPS(isChecked);
             }
         });
         return view;
