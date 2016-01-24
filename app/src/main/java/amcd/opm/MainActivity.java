@@ -18,15 +18,16 @@ import amcd.opm.listeners.PebbleListener;
 public class MainActivity extends AppCompatActivity {
     final String[] screen = {"Welcome","Event Creation","Contact Selection",""};
     String currentScreen;
-    String eventName;
-    String description;
+    String eventName;//name of the emergency in this case
+    String description;//this is the text message
+    boolean useGPS;//whether or not to include GPS data
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final FragmentManager fragmentManager = getFragmentManager();
-        final FragmentTransaction fragmentTranscation = fragmentManager.beginTransaction();
+
         try {
             currentScreen = savedInstanceState.getString("lastScreen");
         }
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View v){
                 if(currentScreen.equals(screen[0])) {
+                    FragmentTransaction fragmentTranscation = fragmentManager.beginTransaction();
                     createEvent fragment = new createEvent();
                     button.setText("SELECT CONTACTS");
                     currentScreen = screen[1];
@@ -63,12 +65,13 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 else if(currentScreen.equals(screen[1])){
-                    try {
-                        button.setText(description);
-                    }
-                    catch (Exception e){
-                        button.setText("Error");
-                    }
+                    FragmentTransaction fragmentTranscation = fragmentManager.beginTransaction();
+                    selectContacts frag = new selectContacts();
+                    button.setText("FINISH");
+                    currentScreen = screen[2];
+                    fragmentTranscation.replace(R.id.main_fragment, frag);
+                    fragmentTranscation.commit();
+
 
                 }
 
@@ -86,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void setDescription(String desc){
         this.description = desc;
+    }
+
+    public void setUseGPS(boolean use){
+        this.useGPS = use;
     }
 
     @Override
