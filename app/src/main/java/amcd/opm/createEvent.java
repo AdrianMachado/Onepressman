@@ -77,12 +77,9 @@ public class createEvent extends Fragment{
         final EditText eventText = (EditText) view.findViewById(R.id.eventName);
         eventText.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s){
-                if(s.toString().equals("")){
-                    s.append("Event Name");
-                }
-                else{
+
                     ((MainActivity)getActivity()).setEventName(s.toString());
-                }
+
 
             }
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}

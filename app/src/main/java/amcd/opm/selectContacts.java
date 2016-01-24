@@ -6,14 +6,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.app.Fragment;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Switch;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 /**
@@ -71,13 +76,14 @@ public class selectContacts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         final View view = inflater.inflate(R.layout.fragment_select_contacts, container, false);
         final SearchView contactText = (SearchView)view.findViewById(R.id.searchView);
         final ListView contactList = (ListView)view.findViewById(R.id.contactList);
         contactText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                String[] text = new String[]{"a","b","c"};
+                String[] text = new String[]{"a"};
                 text[0] = getPhoneNumber(query, view.getContext());
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, text);
                 contactList.setAdapter(adapter);
@@ -101,13 +107,29 @@ public class selectContacts extends Fragment {
 
                 // ListView Clicked item value
                 String  itemValue    = (String) contactList.getItemAtPosition(position);
-
+                if(!itemValue.equals("Unsaved")){
+                    ((MainActivity)getActivity()).appendContactNumber(itemValue);
+                }
                 // Show Alert
                 /*Toast.makeText(getApplicationContext(),
                         "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
                         .show();*/
+                Snackbar snackbar = Snackbar.make(view, "Contact Added", Snackbar.LENGTH_SHORT);
+                snackbar.show();
+
             }
         });
+
+        //Getting Slider Value
+        final Switch incNoo = (Switch) view.findViewById(R.id.switch2);
+        incNoo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                ((MainActivity)getActivity()).appendContactNumber("911");
+            }
+        });
+
+
         return view;
     }
 
@@ -156,7 +178,6 @@ public class selectContacts extends Fragment {
         String[] projection = new String[] { ContactsContract.CommonDataKinds.Phone.NUMBER};
         Cursor c = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 projection, selection, null, null);
-        
         if (c.moveToFirst()) {
             ret = c.getString(0);
         }

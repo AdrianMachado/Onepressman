@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.app.Fragment;
 
+import java.util.ArrayList;
+
 import amcd.opm.listeners.PebbleListener;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,7 +22,9 @@ public class MainActivity extends AppCompatActivity {
     String currentScreen;
     String eventName;//name of the emergency in this case
     String description;//this is the text message
+    ArrayList<String> contactNumbers = new ArrayList<>();//the numbers to be messaged
     boolean useGPS;//whether or not to include GPS data
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -93,6 +97,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void setUseGPS(boolean use){
         this.useGPS = use;
+    }
+
+    public void appendContactNumber(String contactNumber){
+        contactNumbers.add(contactNumber);
     }
 
     @Override
