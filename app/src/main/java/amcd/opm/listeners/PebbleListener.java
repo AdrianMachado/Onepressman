@@ -1,11 +1,18 @@
 package amcd.opm.listeners;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -22,19 +29,30 @@ import java.util.UUID;
  * Created by franzchen on 2016-01-23.
  *
  */
-public class PebbleListener extends Activity{
+public class PebbleListener implements LocationListener {
 
-    private static final UUID APP_UUID = UUID.fromString("3783cff2-5a14-477d-baee-b77bd423d079"); //TODO add actual UUID from app
+    private static final UUID APP_UUID = UUID.fromString("fae951bf-4f1d-4fc9-b60c-1e67f54f58e8"); //TODO add actual UUID from app
 
     //TODO add values for buttons
     private static final int PANIC_BUTTON = 0;
 
     private PebbleDataReceiver listenerReceiver;
     private Context context;
+    private LocationManager manager;
+    private Location location;
 
-    public PebbleListener(Context context) {
+    public PebbleListener(Context context, LocationManager locationManager) {
 
         this.context = context;
+        this.manager = locationManager;
+
+        int permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            manager.requestLocationUpdates(manager.NETWORK_PROVIDER, 500, 0, this);
+            Log.d("constructor", "locations requested");
+        }
+
+        Log.d("constructor", "before pebble data");
 
         if (listenerReceiver == null) {
             listenerReceiver = new PebbleDataReceiver(APP_UUID) {
@@ -62,18 +80,37 @@ public class PebbleListener extends Activity{
             PebbleKit.registerReceivedDataHandler(context, listenerReceiver);
         }
     }
-
-    public void pause() {
-
-        if (listenerReceiver != null) {
-            unregisterReceiver(listenerReceiver);
-            listenerReceiver = null;
-        }
-    }
+    
 
     public void panicHandle() {
+
+        double lon = 0.0;
+        double lat = 0.0;
+
+        if (!location.equals(null)) {
+//            int permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION);
+//            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+//                if (manager != null) {
+//                    location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//                    Log.d("panic handle", "last known loc");
+//                } else {
+//                    Log.d("manager check", "manager exists");
+//                }
+//            }
+            try {
+                lon = location.getLongitude();
+                lat = location.getLatitude();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            Log.d("location", "null");
+        }
+
+        String coordinates = "{" + lon + ", " + lat + "}";
         String[] phoneNumbers = getPhoneNumbers();
-        String message = getMessage();
+        String message = getMessage() + " at " + coordinates;
 
 // Get the default instance of SmsManager
         SmsManager smsManager = SmsManager.getDefault();
@@ -91,4 +128,19 @@ public class PebbleListener extends Activity{
     private String getMessage() {
         return "test";
     }
+
+    @Override
+    public void onLocationChanged(Location loc) {
+        this.location = loc;
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {}
+
+    @Override
+    public void onProviderEnabled(String provider) {}
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {}
+
 }
