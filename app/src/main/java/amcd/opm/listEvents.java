@@ -3,10 +3,16 @@ package amcd.opm;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -64,7 +70,33 @@ public class listEvents extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_events, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_events, container, false);
+        final ListView eventList = (ListView)view.findViewById(R.id.event_list);
+        final ArrayList<EventProfile> profileList = ((MainActivity) getActivity()).getProfiles();
+        String[] temp = new String[profileList.size()];
+        for(int i = 0; i < profileList.size(); i++){
+            temp[i] = profileList.get(i).getName();
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, temp);
+
+        eventList.setAdapter(adapter);
+
+        eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                ((MainActivity) getActivity()).setSelectedProfile(profileList.get(position));
+                // Show Alert
+                /*Toast.makeText(getApplicationContext(),
+                        "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
+                        .show();*/
+                Snackbar snackbar = Snackbar.make(view, "Profile Changed", Snackbar.LENGTH_SHORT);
+                snackbar.show();
+
+            }
+        });
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

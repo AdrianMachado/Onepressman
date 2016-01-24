@@ -2,6 +2,7 @@ package amcd.opm;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,8 +29,10 @@ public class MainActivity extends AppCompatActivity {
     String eventName;//name of the emergency in this case
     String description;//this is the text message
     ArrayList<String> contactNumbers = new ArrayList<>();//the numbers to be messaged
-    boolean useGPS;//whether or not to include GPS data
-
+    EventProfile eventProfile;
+    EventProfile selectedProfile;
+    boolean useGPS = false;//whether or not to include GPS data
+    ArrayList<EventProfile> profiles = new ArrayList<>();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -88,6 +91,26 @@ public class MainActivity extends AppCompatActivity {
 
 
                 }
+                else if(currentScreen.equals(screen[2])){
+                    createProfile();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    listEvents fr = new listEvents();
+                    button.setText("ADD AN EVENT");
+                    currentScreen = screen[3];
+                    fragmentTransaction.replace(R.id.main_fragment, fr);
+                    fragmentTransaction.commit();
+                }
+                else if(currentScreen.equals(screen[3])){
+                    FragmentTransaction fragmentTranscation = fragmentManager.beginTransaction();
+                    createEvent fragment = new createEvent();
+                    button.setText("SELECT CONTACTS");
+                    currentScreen = screen[1];
+                    fragmentTranscation.replace(R.id.main_fragment, fragment);
+                    // fragmentTranscation.add(R.id.create_event,fragment);
+                    //fragmentTranscation.remove(fragmentManager.findFragmentById(R.id.main_fragment));
+
+                    fragmentTranscation.commit();
+                }
 
             }
         });
@@ -111,6 +134,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void appendContactNumber(String contactNumber){
         contactNumbers.add(contactNumber);
+    }
+
+    public void createProfile(){
+        eventProfile = new EventProfile(eventName, contactNumbers, description, useGPS);
+        profiles.add(eventProfile);
+        return;
+    }
+
+    public ArrayList<EventProfile> getProfiles(){
+        return profiles;
+    }
+
+    public void setSelectedProfile(EventProfile sel){
+        selectedProfile = sel;
     }
 
     @Override

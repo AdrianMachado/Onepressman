@@ -17,8 +17,19 @@
         android:layout_height="match_parent">
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment"
+        android:layout_x="0dp"
+        android:layout_y="23dp" />
+
+        <ListView
+            android:orientation="vertical"
+            android:id="@+id/event_list"
+            android:layout_width="match_parent"
+            android:layout_height="323dp"
+            android:layout_x="4dp"
+            android:layout_y="72dp"/>
+
     </AbsoluteLayout>
 
 </FrameLayout>
